@@ -6,19 +6,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Loader } from '@/components/ui/loader';
 import { useLoginMutation } from '@/lib/redux/features/auth/authApi';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { setCredentials } from '@/lib/redux/features/auth/authSlice';
 import { useToast } from '@/hooks/use-toast';
+import { LoginCredentials, ApiError } from '@/types';
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
-type LoginForm = z.infer<typeof loginSchema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,21 +41,22 @@ export default function LoginPage() {
   const [login, { isLoading }] = useLoginMutation();
   const { toast } = useToast();
 
-  const form = useForm<LoginForm>({
+  const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (values: LoginFormValues) => {
     try {
-      const res = await login(data).unwrap();
-      dispatch(setCredentials(res.user));
+      const response = await login(values as LoginCredentials).unwrap();
+      dispatch(setCredentials(response.user));
       toast({ title: 'Success', description: 'Login successful' });
       router.push('/products');
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as ApiError;
       toast({
         title: 'Error',
-        description: error?.data?.message || 'Login failed',
+        description: err.data?.message || 'Login failed',
         variant: 'destructive',
       });
     }
@@ -52,7 +68,7 @@ export default function LoginPage() {
         <CardHeader className="space-y-1 pb-4">
           <CardTitle className="text-xl sm:text-2xl">Login</CardTitle>
           <CardDescription className="text-sm sm:text-base">
-            Enter your credentials to access the dashboard
+            Enter your credentials
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -61,14 +77,13 @@ export default function LoginPage() {
               <FormField
                 control={form.control}
                 name="email"
-                render={({ field }) => (
+                render={({ field:any }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
                         placeholder="you@example.com"
-                        className="h-10 sm:h-11"
                         {...field}
                       />
                     </FormControl>
@@ -86,7 +101,6 @@ export default function LoginPage() {
                       <Input
                         type="password"
                         placeholder="••••••••"
-                        className="h-10 sm:h-11"
                         {...field}
                       />
                     </FormControl>
@@ -94,8 +108,18 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full h-10 sm:h-11" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Login'}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader size="sm" />
+                  </>
+                ) : (
+                  'Login'
+                )}
               </Button>
             </form>
           </Form>
