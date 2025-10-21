@@ -1,3 +1,4 @@
+// types/index.ts
 export interface Product {
   id?: string;
   name: string;
@@ -23,4 +24,11 @@ export interface LoginCredentials {
 export interface AuthResponse {
   message: string;
   user: User;
+}
+
+export interface ApiError {
+  data?: {
+    message?: string;
+  };
+  status?: number;
 }

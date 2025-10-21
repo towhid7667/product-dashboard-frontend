@@ -8,7 +8,13 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Product Dashboard',
-  description: 'Real-time product management system',
+  description: 'Real-time product management',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -17,11 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="h-full">
+      <body className={`${inter.className} h-full bg-gray-50`}>
         <Providers>
-          {children}
-          <Toaster />
+          <div className="min-h-screen flex flex-col">
+            {children}
+            <Toaster />
+          </div>
         </Providers>
       </body>
     </html>
