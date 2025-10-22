@@ -63,7 +63,7 @@ export function DeleteConfirmModal({
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isLoading}
-            className="bg-destructive hover:bg-destructive/90"
+            className="bg-red-500 hover:bg-red-500/90"
           >
             {isLoading ? 'Deleting...' : 'Delete'}
           </AlertDialogAction>

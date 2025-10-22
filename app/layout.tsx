@@ -31,11 +31,6 @@ export default function RootLayout({
             <Toaster />
           </div>
         </Providers>
-
-        {/* Remove this test div later — put in a page */}
-        <div className="bg-red-500 text-white p-8 text-2xl font-bold text-center">
-          TAILWIND IS BACK!
-        </div>
       </body>
     </html>
   );
