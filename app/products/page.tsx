@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, LogOut, BarChart3 } from 'lucide-react';
-import { ProductsTable } from '@/components/products/ProductsTable';
+import { ProductsTable } from '@/components/products/Productstable';
 import { ProductModal } from '@/components/products/ProductModal';
 import { useGetProductsQuery } from '@/lib/redux/features/products/productsApi';
 import { useLogoutMutation } from '@/lib/redux/features/auth/authApi';
