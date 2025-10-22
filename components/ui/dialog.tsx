@@ -61,7 +61,7 @@ const DialogContent = React.forwardRef<
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = React.forwardRef<
-  React.ElementRef<typeof React.Fragment>,
+  HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
@@ -73,7 +73,7 @@ const DialogHeader = React.forwardRef<
 DialogHeader.displayName = 'DialogHeader';
 
 const DialogFooter = React.forwardRef<
-  React.ElementRef<typeof React.Fragment>,
+  HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div

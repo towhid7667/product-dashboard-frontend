@@ -28,7 +28,7 @@ const AlertDialogOverlay = React.forwardRef<
   <AlertDialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-black/50', // Overlay stays at z-50
+      'fixed inset-0 z-50 bg-black/50',
       'data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
@@ -48,7 +48,7 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed left-[50%] top-[50%] z-51 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]', // 👈 z-51 ensures it's above overlay
+        'fixed left-[50%] top-[50%] z-51 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]',
         'gap-4 border border-gray-200 bg-white p-6 shadow-lg rounded-lg',
         'duration-200',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
@@ -66,7 +66,7 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;
 
 /* Header */
 const AlertDialogHeader = React.forwardRef<
-  React.ElementRef<typeof React.Fragment>,
+  HTMLDivElement, // ✅ Fixed: was React.ElementRef<typeof React.Fragment>
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
@@ -79,7 +79,7 @@ AlertDialogHeader.displayName = 'AlertDialogHeader';
 
 /* Footer */
 const AlertDialogFooter = React.forwardRef<
-  React.ElementRef<typeof React.Fragment>,
+  HTMLDivElement, // ✅ Fixed: was React.ElementRef<typeof React.Fragment>
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div
