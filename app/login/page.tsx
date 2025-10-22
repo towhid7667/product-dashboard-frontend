@@ -113,13 +113,11 @@ export default function LoginPage() {
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  <>
-                    <Loader size="sm" />
-                  </>
-                ) : (
+                {isLoading ? 
+                  'Loging...'
+                 : 
                   'Login'
-                )}
+                }
               </Button>
             </form>
           </Form>
