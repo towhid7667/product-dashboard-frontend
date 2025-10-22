@@ -316,7 +316,7 @@ export function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? <Loader size="sm" /> : null}
+                {/* {isSubmitting ? <Loader size="sm" /> : null} */}
                 {isSubmitting ? 'Saving...' : product ? 'Update Product' : 'Create Product'}
               </Button>
             </div>
