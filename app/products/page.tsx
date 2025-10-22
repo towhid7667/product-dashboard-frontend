@@ -10,7 +10,7 @@ import { ProductModal } from '@/components/products/ProductModal';
 import { useGetProductsQuery } from '@/lib/redux/features/products/productsApi';
 import { useLogoutMutation } from '@/lib/redux/features/auth/authApi';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { logout } from '@/lib/redux/features/auth/authSlice';
+import { logout } from '@/lib/redux/features/auth/authslice';
 import { useRealtimeProducts } from '@/hooks/useRealtimeProducts';
 import { Loader } from '@/components/ui/loader';
 

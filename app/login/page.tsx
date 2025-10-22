@@ -24,7 +24,7 @@ import {
 import { Loader } from '@/components/ui/loader';
 import { useLoginMutation } from '@/lib/redux/features/auth/authApi';
 import { useAppDispatch } from '@/lib/redux/hooks';
-import { setCredentials } from '@/lib/redux/features/auth/authSlice';
+import { setCredentials } from '@/lib/redux/features/auth/authslice';
 import { useToast } from '@/hooks/use-toast';
 import { LoginCredentials, ApiError } from '@/types';
 
