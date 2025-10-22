@@ -32,7 +32,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.mjs",
+    ".next/types/**/*.ts",
+    "tailwind.config.ts",
+    "postcss.config.mjs"
   ],
   "exclude": ["node_modules"]
 }

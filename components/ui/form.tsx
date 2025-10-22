@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { Controller, ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
+import { Controller, ControllerProps, FieldPath, FieldValues, useFormContext, FormProvider } from 'react-hook-form';
 import { cn } from '@/lib/utils';
 
-const Form = ({ children, ...props }: React.ComponentPropsWithoutRef<'form'>) => (
-  <form {...props}>{children}</form>
-);
+const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -31,16 +29,19 @@ const FormField = <
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
-  const { formState } = React.useContext(FormItemContext);
   const itemContext = React.useContext(FormItemContext);
+  const formContext = useFormContext();
 
   if (!fieldContext) {
     throw new Error('useFormField should be used within <FormField>');
   }
 
-  const { defaultValues } = React.useContext(FormContext);
-  const fieldState = formState.errors[fieldContext.name];
-  const value = itemContext.getValues?.(fieldContext.name) ?? defaultValues?.[fieldContext.name];
+  if (!formContext) {
+    throw new Error('useFormField should be used within <Form> (FormProvider)');
+  }
+
+  const { getFieldState, formState } = formContext;
+  const fieldState = getFieldState(fieldContext.name, formState);
 
   return {
     id: itemContext.id,
@@ -49,7 +50,6 @@ const useFormField = () => {
     formDescriptionId: `${itemContext.id}-form-item-description`,
     formMessageId: `${itemContext.id}-form-item-message`,
     ...fieldState,
-    value,
   };
 };
 
@@ -76,12 +76,16 @@ const FormLabel = React.forwardRef<
   HTMLLabelElement,
   React.LabelHTMLAttributes<HTMLLabelElement>
 >(({ className, ...props }, ref) => {
-  const { formItemId } = useFormField();
+  const { error, formItemId } = useFormField();
 
   return (
     <label
       ref={ref}
-      className={cn('text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)}
+      className={cn(
+        'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+        error && 'text-destructive',
+        className
+      )}
       htmlFor={formItemId}
       {...props}
     />
@@ -89,25 +93,26 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
-const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ ...props }, ref) => {
-    const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
-    return (
-      <Slot
-        ref={ref}
-        id={formItemId}
-        aria-describedby={
-          !error
-            ? `${formDescriptionId}`
-            : `${formDescriptionId} ${formMessageId}`
-        }
-        aria-invalid={!!error}
-        {...props}
-      />
-    );
-  }
-);
+  return (
+    <Slot
+      ref={ref}
+      id={formItemId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
+      {...props}
+    />
+  );
+});
 FormControl.displayName = 'FormControl';
 
 const FormDescription = React.forwardRef<

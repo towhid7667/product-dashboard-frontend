@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import './globals.css';  // ← ONLY ONE
 import { Providers } from './providers';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -31,6 +31,11 @@ export default function RootLayout({
             <Toaster />
           </div>
         </Providers>
+
+        {/* Remove this test div later — put in a page */}
+        <div className="bg-red-500 text-white p-8 text-2xl font-bold text-center">
+          TAILWIND IS BACK!
+        </div>
       </body>
     </html>
   );

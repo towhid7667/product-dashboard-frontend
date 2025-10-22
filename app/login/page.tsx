@@ -77,7 +77,7 @@ export default function LoginPage() {
               <FormField
                 control={form.control}
                 name="email"
-                render={({ field:any }) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
