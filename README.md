@@ -114,8 +114,8 @@ This separation means the app uses RTK Query for primary CRUD and Firestore as a
 - `app/layout.tsx` app shell and global styles
 - `app/providers.tsx` Redux provider wiring
 - `lib/redux/store.ts` RTK store and middleware
-- `lib/redux/features/products/productsApi.ts` 12 products endpoints (RTK Query)
-- `lib/redux/features/auth/authApi.ts` 12 auth endpoints
+- `lib/redux/features/products/productsApi.ts` products endpoints (RTK Query)
+- `lib/redux/features/auth/authApi.ts` auth endpoints
 - `lib/firebase/config.ts` Firestore initialization (env-based)
 - `hooks/useRealtimeProducts.ts` realtime invalidation pattern
 - `components/products/*` product UI (table, modal, delete)
